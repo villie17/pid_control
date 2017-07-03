@@ -87,7 +87,7 @@ int main()
           // ------------------------
           double diff_cte = (cte - prev_cte)/passed;
           prev_cte = cte;
-          int_cte += (cte);
+          int_cte += (cte*passed);
           steer_value = -pid.Kp * cte - pid.Kd * diff_cte - pid.Ki * int_cte;
 
           // Debug statements
