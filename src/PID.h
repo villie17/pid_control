@@ -4,7 +4,7 @@
 class PID {
 public:
   /*
-  * Errors
+  * Errors: Will not use this
   */
   double p_error;
   double i_error;
@@ -16,6 +16,19 @@ public:
   double Kp;
   double Ki;
   double Kd;
+
+  // diff
+  double d_Kp;
+  double d_Ki;
+  double d_Kd;
+
+  int update_freq;
+  double batch_error;
+  double best_error;
+  double* cur_K;
+  double* cur_d_K;
+
+  int turn;
 
   /*
   * Constructor
