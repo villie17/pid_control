@@ -32,7 +32,10 @@ std::string hasData(std::string s) {
 // Global paramters to check in onMessage
 double int_cte = 0; // Integral of CTE
 double prev_cte = 0;// Previous CTE
-std::chrono::_V2::system_clock::time_point t_start; // To check the time b/w calls
+//std::chrono::_V2::system_clock::time_point t_start; // To check the time b/w calls
+typedef std::chrono::high_resolution_clock Clock;
+typedef std::chrono::milliseconds milliseconds;
+Clock::time_point t_start;
 
 
 
@@ -45,7 +48,7 @@ int main()
   // Set initial values as Kp=1, Kd=0.5 and Ki=0
   pid.Init(1,0,0.5);
   // Start the clock
-  t_start = std::chrono::high_resolution_clock::now();
+  t_start = Clock::now();
 
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
@@ -73,8 +76,9 @@ int main()
           pid.UpdateError(cte);
 
           // Calculate the time passed
-          auto t_end = std::chrono::high_resolution_clock::now();
-          double passed = std::chrono::duration<double, std::milli>(t_end-t_start).count();
+          auto t_end = Clock::now();
+          //double passed = std::chrono::duration<double, std::milli>(t_end-t_start).count();
+          double passed = std::chrono::duration_cast<milliseconds>(t_end - t_start).count();
           t_start  = t_end;
           passed /= 1000.0;
           std:: cout << "Total seconds passed:" << passed << std::endl;
